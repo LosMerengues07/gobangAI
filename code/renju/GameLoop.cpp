@@ -2,19 +2,23 @@
 
 GameLoop::GameLoop(bool user_is_black)
 {
-	if (user_is_black) {
+	if (user_is_black)
+	{
 		user_color = black;
 		ai_color = white;
 		cur_turn = AI;
 	}
-	else {
+	else
+	{
 		user_color = white;
 		ai_color = black;
 		cur_turn = USER;
 	}
 
-	for (int i = 0; i < GRID_NUM; i++) {
-		for (int j = 0; j < GRID_NUM; j++) {
+	for (int i = 0; i < GRID_NUM; i++)
+	{
+		for (int j = 0; j < GRID_NUM; j++)
+		{
 			chessBoard[i][j] = blank;
 		}
 	}
@@ -24,20 +28,21 @@ void GameLoop::printMenu()
 {
 	cout << "*************五子棋人机对弈AI*************" << endl;
 	if (user_color == black)
-	cout << "*************电脑先手*********************" << endl;
+		cout << "*************电脑先手*********************" << endl;
 	else
-	cout << "*************电脑后手*********************" << endl;
+		cout << "*************电脑后手*********************" << endl;
 	cout << "输入: end		 结束游戏" << endl;
 	cout << "输入: move x y  表示落子点" << endl;
 }
 
-void GameLoop::printLog() {
+void GameLoop::printLog()
+{
 	cout << log;
 }
 
 void GameLoop::userLoop()
 {
-	cin.clear(); 
+	cin.clear();
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	string s;
 	int x, y;
@@ -53,7 +58,8 @@ void GameLoop::aiLoop()
 {
 	//random search bug: will endless loop if table  is full
 	int rx, ry;
-	do {
+	do
+	{
 		rx = rand() % GRID_NUM;
 		ry = rand() % GRID_NUM;
 	} while (chessBoard[rx, ry] == 0);
@@ -62,28 +68,34 @@ void GameLoop::aiLoop()
 
 void GameLoop::run()
 {
-	while (true) {
+	while (true)
+	{
 		system("cls");
 		printMenu();
 		print();//输出棋盘
-		if (isWin()) {
+		if (isWin())
+		{
 			cout << "you win" << endl;
 			system("pause");
 			return;
 		}
 
-		if (isLose()) {
+		if (isLose())
+		{
 			cout << "you lose" << endl;
 			system("pause");
 			return;
 		}
 
-		switch (cur_turn) {
+		switch (cur_turn)
+		{
 		case USER:
-			try{
+			try
+			{
 				userLoop();
 			}
-			catch (int i) {
+			catch (int i)
+			{
 			}
 			cur_turn = AI;
 			break;
@@ -103,8 +115,10 @@ void GameLoop::run()
 
 bool GameLoop::isWin()
 {
-	for (int i = 0; i < GRID_NUM; i++) {
-		for (int j = 0; j < GRID_NUM; j++) {
+	for (int i = 0; i < GRID_NUM; i++)
+	{
+		for (int j = 0; j < GRID_NUM; j++)
+		{
 			if (gameover(make_pair(i, j), user_color))
 				return true;
 		}
@@ -114,8 +128,10 @@ bool GameLoop::isWin()
 
 bool GameLoop::isLose()
 {
-	for (int i = 0; i < GRID_NUM; i++) {
-		for (int j = 0; j < GRID_NUM; j++) {
+	for (int i = 0; i < GRID_NUM; i++)
+	{
+		for (int j = 0; j < GRID_NUM; j++)
+		{
 			if (gameover(make_pair(i, j), ai_color))
 				return true;
 		}

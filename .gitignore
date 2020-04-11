@@ -1,2 +1,4 @@
-code/.vs/
-code/renju/x64/
+code/.vs/*
+code/renju/x64/*
+code/x64/*
+.history/*

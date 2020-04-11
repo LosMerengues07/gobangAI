@@ -30,7 +30,7 @@ void print() //∆Â≈Ã¥Ú”°
 		{
 			printf("  ");
 			for (int j = 1; j < 16; j++)
-				printf("%-2d",j);
+				printf("%-2d", j);
 			printf("\n");
 			continue;
 		}

@@ -10,16 +10,20 @@ int directions[4][2] = {
 	-1, 1
 };
 //判断从node出发,是否能连出5子
-bool gameover(pair<int, int> node, int player) {
+bool gameover(pair<int, int> node, int player)
+{
 	int x = node.first;
 	int y = node.second;
 
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 4; i++)
+	{
 		int flag = true;
-		for (int j = 0; j < 5; j++) {
+		for (int j = 0; j < 5; j++)
+		{
 			int nx = x + directions[i][0] * j;
 			int ny = y + directions[i][1] * j;
-			if (!inboard(nx, ny) || chessBoard[nx][ny] != player) {
+			if (!inboard(nx, ny) || chessBoard[nx][ny] != player)
+			{
 				flag = false;
 				break;
 			}

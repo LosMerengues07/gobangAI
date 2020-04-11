@@ -5,7 +5,8 @@
 #include "GameLoop.h"
 #include <conio.h>
 
-void printMenu() {
+void printMenu()
+{
 	cout << "*************五子棋人机对弈AI*************" << endl;
 	cout << "输入: newblack  电脑先手" << endl;
 	cout << "输入: newwhite  电脑后手" << endl;
@@ -17,28 +18,33 @@ int main()
 
 	srand(time(NULL));
 
-	while (true) {
+	while (true)
+	{
 		system("cls");
 		printMenu();
 		string s;
 		cin >> s;
-		if (s.compare("newblack") == 0) {
+		if (s.compare("newblack") == 0)
+		{
 			GameLoop game = GameLoop(true);
 			game.run();
 		}
-		else if (s.compare("newwhite") == 0) {
+		else if (s.compare("newwhite") == 0)
+		{
 			GameLoop game = GameLoop(false);
 			game.run();
 		}
-		else if (s.compare("end") == 0){
+		else if (s.compare("end") == 0)
+		{
 			return 0;
 		}
-		else {
+		else
+		{
 			cout << "您输入的参数无效,请重新输入,按任意键确认";
 			system("pause");
 		}
 	}
 
 	return 0;
-	
+
 }
