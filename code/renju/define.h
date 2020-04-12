@@ -4,6 +4,7 @@
 //全局变量定义
 
 #include <stdio.h>
+#include <sstream>
 #include <string.h>
 #include <string>
 #include <math.h>

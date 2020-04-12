@@ -42,13 +42,17 @@ void GameLoop::printLog()
 
 void GameLoop::userLoop()
 {
-	cin.clear();
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
-	string s;
-	int x, y;
-	cin >> s >> x >> y;
-
-	if (s.compare("move") == 0 && inboard(y, x) && chessBoard[y][x] == 0)
+	//cin.clear();
+	//cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	string s, subs;
+	int x = -1, y = -1;
+	getline(cin, s ,'\n');
+	if(s.empty())
+		throw 1;
+	istringstream ss(s);
+	ss >> subs >> x >> y;
+	ss.str("");
+	if (inboard(y, x) && subs.compare("move") == 0 && chessBoard[y][x] == 0)
 		chessBoard[y][x] = user_color;
 	else
 		throw 1;
@@ -62,7 +66,7 @@ void GameLoop::aiLoop()
 	{
 		rx = rand() % GRID_NUM;
 		ry = rand() % GRID_NUM;
-	} while (chessBoard[rx, ry] == 0);
+	} while (chessBoard[rx][ry] != blank);
 	chessBoard[rx][ry] = ai_color;
 }
 
@@ -96,6 +100,8 @@ void GameLoop::run()
 			}
 			catch (int i)
 			{
+				cur_turn = USER;
+				break;
 			}
 			cur_turn = AI;
 			break;
