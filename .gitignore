@@ -2,3 +2,4 @@ code/.vs/*
 code/renju/x64/*
 code/x64/*
 .history/*
+code/renju/renju.vcxproj
