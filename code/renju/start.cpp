@@ -15,7 +15,6 @@ void printMenu()
 }
 int main()
 {
-
 	srand(time(NULL));
 
 	while (true)

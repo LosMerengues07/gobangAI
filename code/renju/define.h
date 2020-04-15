@@ -29,6 +29,7 @@ using namespace std;
 extern int chessBoard[GRID_NUM][GRID_NUM]; //∆Â≈Ã
 extern int valueBoard[GRID_NUM][GRID_NUM]; //∆Â≈Ã
 bool gameover(pair<int, int> node, int player); //≈–∂œ «∑Ò”Œœ∑Ω· ¯
+void printValueBoard();
 #endif
 
 
