@@ -3,6 +3,7 @@
 #include "searchmove.h"
 #include "printchessboard.h"
 #include "makemove.h"
+#include "evaluate.h"
 class GameLoop
 {
 	int user_color;

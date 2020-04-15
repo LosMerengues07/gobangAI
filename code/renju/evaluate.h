@@ -2,6 +2,8 @@
 #define _EVALUATE_
 //估值生成器
 
-int evaluate();//估值算法，返回估值
+int getLine(pair<int, int> node, int i, int j);
+int evaluate(pair<int, int> node, int target_player, int ai_color, int user_color);
+void evaluate_all(int ai_color, int user_color);
 
 #endif

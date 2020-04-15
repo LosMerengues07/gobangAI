@@ -36,3 +36,15 @@ bool gameover(pair<int, int> node, int player)
 
 	return false;
 }
+
+void printValueBoard()
+{
+	for (int i = 1; i < GRID_NUM; i++)
+	{
+		for (int j = 1; j < GRID_NUM; j++)
+		{
+			cout << valueBoard[i][j] << " ";
+		}
+		cout << endl;
+	}
+}

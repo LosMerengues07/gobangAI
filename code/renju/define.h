@@ -15,6 +15,7 @@
 
 using namespace std;
 
+#define out -1		//棋盘外
 #define blank 0		//空白点
 #define black 1		//黑方
 #define white 2		//白方
@@ -26,6 +27,7 @@ using namespace std;
 
 #define GRID_NUM 16	//棋盘规模	
 extern int chessBoard[GRID_NUM][GRID_NUM]; //棋盘
+extern int valueBoard[GRID_NUM][GRID_NUM]; //棋盘
 bool gameover(pair<int, int> node, int player); //判断是否游戏结束
 #endif
 
