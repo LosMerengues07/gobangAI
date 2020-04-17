@@ -59,31 +59,34 @@ void GameLoop::userLoop()
 
 void GameLoop::aiLoop()
 {
+	
+	minMaxSearch(ai_color, DEPTH, -inf, +inf);
+	chessBoard[next_x][next_y] = ai_color;
 	//random search bug: will endless loop if table  is full
-	evaluate_all(ai_color, user_color);
-	int max = valueBoard[1][1];
-	int max_x = 1, max_y = 1;
-	for (int i = 1; i < GRID_NUM; i++)
-	{
-		for (int j = 1; j < GRID_NUM; j++)
-		{
-			if (valueBoard[i][j] > max)
-			{
-				max = valueBoard[i][j];
-				max_x = i;
-				max_y = j;
-			}
-		}
-	} 
-	if (max == 0)
-	{ 
-		do
-		{
-			max_x = rand() % GRID_NUM;
-			max_y = rand() % GRID_NUM;
-		} while (chessBoard[max_x][max_y] != blank);
-	}
-	chessBoard[max_x][max_y] = ai_color;
+	//evaluate_all(ai_color, user_color);
+	//int max = valueBoard[1][1];
+	//int max_x = 1, max_y = 1;
+	//for (int i = 1; i < GRID_NUM; i++)
+	//{
+	//	for (int j = 1; j < GRID_NUM; j++)
+	//	{
+	//		if (valueBoard[i][j] > max)
+	//		{
+	//			max = valueBoard[i][j];
+	//			max_x = i;
+	//			max_y = j;
+	//		}
+	//	}
+	//} 
+	//if (max == 0)
+	//{ 
+	//	do
+	//	{
+	//		max_x = rand() % GRID_NUM;
+	//		max_y = rand() % GRID_NUM;
+	//	} while (chessBoard[max_x][max_y] != blank);
+	//}
+	//chessBoard[max_x][max_y] = ai_color;
 }
 
 void GameLoop::run()

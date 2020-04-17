@@ -2,6 +2,6 @@
 #define _CREATEMOVES_
 //走法生成器
 
-int createMoves(int player);
+vector<pair<int, int>> createMoves(int player);
 
 #endif

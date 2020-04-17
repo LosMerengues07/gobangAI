@@ -9,6 +9,7 @@
 #include <string>
 #include <math.h>
 #include <iostream>
+#include <vector>
 #include <algorithm>
 #include <ctime>
 #include <assert.h>
@@ -22,14 +23,24 @@ using namespace std;
 
 #define USER 11
 #define AI 12
-#define inf 1000000		
+#define inf 10000000		
 #define inboard(a,b) (a>0 && a<=15 && b>0 && b<=15)		//用于检验招法是否在棋盘上
 
 #define GRID_NUM 16	//棋盘规模	
 extern int chessBoard[GRID_NUM][GRID_NUM]; //棋盘
 extern int valueBoard[GRID_NUM][GRID_NUM]; //棋盘
+
+struct ScoreWithP {
+	int score;
+	int x;
+	int y;
+
+	ScoreWithP(int s, int x, int y) :score(s), x(x), y(y){}
+};
+//extern int BASE_DEPTH;
 bool gameover(pair<int, int> node, int player); //判断是否游戏结束
 void printValueBoard();
+bool hasNeighbor(pair<int, int> point);
 #endif
 
 

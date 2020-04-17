@@ -201,6 +201,26 @@ void evaluate_all(int ai_color, int user_color)
     }
 }
 
+int evaluate(int now_color) {
+	int ai_color = now_color, user_color = 3 - now_color;
+
+	evaluate_all(ai_color, user_color);
+	int max = valueBoard[0][0];
+	int max_x = 1, max_y = 1;
+	for (int i = 0; i < GRID_NUM; i++)
+	{
+		for (int j = 0; j < GRID_NUM; j++)
+		{
+			if (valueBoard[i][j] > max)
+			{
+				max = valueBoard[i][j];
+				max_x = i;
+				max_y = j;
+			}
+		}
+	}
+	return max;
+}
 //由于五子棋搜索分支庞大，通常无法直接搜索到胜负终局，当搜索到一定深度时需要根据局面返回搜索结果。
 //参考资料：
 //张明亮, 吴俊, 李凡长. 五子棋机器博弈系统评估函数的设计[J]. 计算机应用, 2012, 32(07):1969-1972.
