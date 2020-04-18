@@ -27,8 +27,8 @@ int next_x, next_y;
 
 int minMaxSearch(int now_play, int depth, int alpha, int beta) {
 	if (depth <= 0) {
-		//int e = evaluate(now_play);
-		//return e;
+		int e = evaluate(now_play, getOppo(now_play));
+		return e;
 	}
 
 	auto choices = createMoves(now_play);
@@ -36,7 +36,7 @@ int minMaxSearch(int now_play, int depth, int alpha, int beta) {
 	for (auto & p : choices) {
 		chessBoard[p.first][p.second] = now_play;
 
-		int val = -minMaxSearch(3 - now_play, depth - 1, -beta, -alpha);
+		int val = -minMaxSearch(getOppo(now_play), depth - 1, -beta, -alpha);
 
 		chessBoard[p.first][p.second] = blank;
 

@@ -74,14 +74,16 @@ void GameLoop::userLoop()
 
 void GameLoop::aiLoop()
 {
+	minMaxSearch(ai_color, DEPTH, -inf, +inf);
+	chessBoard[next_x][next_y] = ai_color;
 	//random search bug: will endless loop if table  is full
-	int rx, ry;
-	do
-	{
-		rx = rand() % GRID_NUM;
-		ry = rand() % GRID_NUM;
-	} while (chessBoard[rx][ry] != blank);
-	chessBoard[rx][ry] = ai_color;
+	//int rx, ry;
+	//do
+	//{
+	//	rx = rand() % GRID_NUM;
+	//	ry = rand() % GRID_NUM;
+	//} while (chessBoard[rx][ry] != blank);
+	//chessBoard[rx][ry] = ai_color;
 }
 
 void GameLoop::run()

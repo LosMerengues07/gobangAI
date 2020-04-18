@@ -149,7 +149,7 @@ int cal_score(pair<int, int> node, int direction ,int my_player, int ai_color, i
     return add_score + max_score_shape["score"];
 }
 
-float evaluate(int ai_color, int user_color)
+int evaluate(int ai_color, int user_color)
 {
     int my_score = 0;
     int enemy_score = 0;
