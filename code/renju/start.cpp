@@ -8,10 +8,11 @@
 void printMenu()
 {
 	cout << "*************五子棋人机对弈AI*************" << endl;
-	cout << "输入: newblack  电脑先手" << endl;
-	cout << "输入: newwhite  电脑后手" << endl;
-	cout << "输入: end		 结束游戏" << endl;
+	cout << "输入: newai     电脑执黑先手" << endl;
+	cout << "输入: newuser   电脑执白后手" << endl;
+	cout << "输入: end       结束游戏" << endl;
 	cout << "输入: move x y  表示落子点" << endl;
+	cout << "输入: regret    表示悔棋" << endl;
 }
 int main()
 {
@@ -21,14 +22,15 @@ int main()
 	{
 		system("cls");
 		printMenu();
+		cout << "指定先后手: ";
 		string s;
 		cin >> s;
-		if (s.compare("newblack") == 0)
+		if (s.compare("newai") == 0)
 		{
 			GameLoop game = GameLoop(true);
 			game.run();
 		}
-		else if (s.compare("newwhite") == 0)
+		else if (s.compare("newuser") == 0)
 		{
 			GameLoop game = GameLoop(false);
 			game.run();

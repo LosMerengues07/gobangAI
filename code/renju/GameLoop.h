@@ -18,7 +18,7 @@ class GameLoop
 	void aiLoop();
 
 public:
-	GameLoop(bool user_is_black);
+	GameLoop(bool ai_is_black);
 	bool isWin();
 	bool isLose();
 	void run();

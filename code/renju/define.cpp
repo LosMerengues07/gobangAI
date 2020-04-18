@@ -2,7 +2,10 @@
 
 int chessBoard[GRID_NUM][GRID_NUM];//定义棋盘
 int valueBoard[GRID_NUM][GRID_NUM];//棋盘估值
+vector<pair<int, int>> ai_steps; //记录ai
+vector<pair<int, int>> user_steps; //记录用户
 map<string, int> score_map;
+int turns = 0;
 //只用检测一半的出发点
 int directions[4][2] = {
 	1, 0,

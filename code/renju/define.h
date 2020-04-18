@@ -30,6 +30,9 @@ using namespace std;
 extern int chessBoard[GRID_NUM][GRID_NUM]; //∆Â≈Ã
 extern int valueBoard[GRID_NUM][GRID_NUM]; //∆Â≈Ã
 extern map<string, int> score_map;
+extern vector<pair<int, int>> ai_steps;
+extern vector<pair<int, int>> user_steps;
+extern int turns;
 
 struct ScoreWithP {
 	int score;

@@ -1,5 +1,5 @@
 #include "GameLoop.h"
-GameLoop::GameLoop(bool user_is_black)
+GameLoop::GameLoop(bool ai_is_black)
 {
 	score_map["01100"]  = 50;
 	score_map["00110"]  = 50;
@@ -16,16 +16,16 @@ GameLoop::GameLoop(bool user_is_black)
 	score_map["01111"]  = 5000;
 	score_map["011110"] = 50000;
 	score_map["11111"]  = 99999999;
-	if (user_is_black)
-	{
-		user_color = black;
-		ai_color = white;
-		cur_turn = AI;
-	}
-	else
+	if (ai_is_black)  //ai黑棋先手
 	{
 		user_color = white;
 		ai_color = black;
+		cur_turn = AI;
+	}
+	else  //用户黑棋先手
+	{
+		user_color = black;
+		ai_color = white;
 		cur_turn = USER;
 	}
 
@@ -42,11 +42,14 @@ void GameLoop::printMenu()
 {
 	cout << "*************五子棋人机对弈AI*************" << endl;
 	if (user_color == black)
-		cout << "*************电脑先手*********************" << endl;
+		cout << "*************用户执黑先手*********************" << endl;
 	else
-		cout << "*************电脑后手*********************" << endl;
+		cout << "*************电脑执黑先手*********************" << endl;
 	cout << "输入: end		 结束游戏" << endl;
 	cout << "输入: move x y  表示落子点" << endl;
+	cout << "输入: regret    表示悔棋" << endl;
+	cout << "ai棋数:   " << ai_steps.size() << endl << "user棋数: " << user_steps.size() << endl;
+	//cout << "回合: " << turns << endl;
 }
 
 void GameLoop::printLog()
@@ -58,24 +61,43 @@ void GameLoop::userLoop()
 {
 	//cin.clear();
 	//cin.ignore(numeric_limits<streamsize>::max(), '\n');
-	string s, subs;
+	cout << "user input: ";
+	string cmd;
 	int x = -1, y = -1;
-	getline(cin, s ,'\n');
-	if(s.empty())
-		throw 1;
-	istringstream ss(s);
-	ss >> subs >> x >> y;
-	ss.str("");
-	if (inboard(y, x) && subs.compare("move") == 0 && chessBoard[y][x] == 0)
-		chessBoard[y][x] = user_color;
+	cin >> cmd;
+	if(cmd.empty())
+		throw -1;
+	if (cmd.compare("move") == 0)
+	{
+		cin >> x >> y;
+		if (inboard(y, x) && chessBoard[y][x] == 0)
+			makeMove(y, x, USER, user_color);
+		else
+			throw -1;
+	}
+	else if (cmd.compare("regret") == 0)
+	{
+		if (ai_steps.empty() || user_steps.empty())
+		{
+			throw -1;
+		}
+		else
+		{
+			unMakeMove();
+			throw 1;
+		}
+	}
 	else
-		throw 1;
+	{
+		throw -1;
+	}
+
 }
 
 void GameLoop::aiLoop()
 {
 	minMaxSearch(ai_color, DEPTH, -inf, +inf, *this);
-	chessBoard[next_x][next_y] = ai_color;
+	makeMove(next_x, next_y, AI, ai_color);
 	//random search bug: will endless loop if table  is full
 	//int rx, ry;
 	//do
@@ -119,6 +141,10 @@ void GameLoop::run()
 			}
 			catch (int i)
 			{
+				if(i == -1)
+					cout << "invalid input!" << endl;
+				else
+					cout << "regret!" << endl;
 				cur_turn = USER;
 				break;
 			}
@@ -129,11 +155,10 @@ void GameLoop::run()
 			cur_turn = USER;
 			break;
 		default:
+			cout << "error!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
 			assert(1);
 			break;
 		}
-
-		printLog();
 	}
 
 }

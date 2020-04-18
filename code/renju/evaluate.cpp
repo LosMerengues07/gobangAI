@@ -80,7 +80,7 @@ int cal_score(pair<int, int> node, int direction ,int my_player, int ai_color, i
 
     for (auto item : *score_all_arr)
     {
-        pair<int, int> arr[5];
+        pair<int, int> arr[5 ];
         getPoints(item["x"], item["y"], item["offset"], item["direction"], arr);
         for (auto pt : arr)
         {
@@ -149,7 +149,7 @@ int cal_score(pair<int, int> node, int direction ,int my_player, int ai_color, i
     return add_score + max_score_shape["score"];
 }
 
-int evaluate(int ai_color, int user_color)
+int evaluate(int ai_color, int user_color, int gamma)
 {
     int my_score = 0;
     int enemy_score = 0;
@@ -178,7 +178,7 @@ int evaluate(int ai_color, int user_color)
     }
     //cout << "ai score: " << my_score << endl;
     //cout << "user score: " << enemy_score << endl;
-    return my_score - 0.1*enemy_score;
+    return my_score - 0.1 * gamma * enemy_score;
 }
 //由于五子棋搜索分支庞大，通常无法直接搜索到胜负终局，当搜索到一定深度时需要根据局面返回搜索结果。
 //参考资料：

@@ -4,7 +4,7 @@
 
 #include "define.h"
 
-bool makeMove();//执行走法
+bool makeMove(int i, int j, int player, int color);//执行走法
 
 void unMakeMove();//撤销走法
 

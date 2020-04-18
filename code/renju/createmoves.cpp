@@ -7,10 +7,7 @@ bool compS(ScoreWithP & p1, ScoreWithP & p2) {
 }
 vector<pair<int, int>> createMoves(int player) //生成全部合法走法集
 {
-
-	
 	//为了节约时间,仅产生周围已有落子的
-
 	vector<pair<int, int>> choices;
 	vector<ScoreWithP> choicesWithS;
 	for (int i = 0; i < GRID_NUM; i++) {
