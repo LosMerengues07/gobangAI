@@ -40,7 +40,7 @@ int minMaxSearch(int now_play, int depth, int alpha, int beta) {
 
 		chessBoard[p.first][p.second] = blank;
 
-		if (val >= alpha) {
+		if (val > alpha) {
 			alpha = val;
 			if (depth == DEPTH) {
 				next_x = p.first;

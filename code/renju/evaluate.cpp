@@ -176,8 +176,8 @@ int evaluate(int ai_color, int user_color)
             }
         }
     }
-    cout << "ai score: " << my_score << endl;
-    cout << "user score: " << enemy_score << endl;
+    //cout << "ai score: " << my_score << endl;
+    //cout << "user score: " << enemy_score << endl;
     return my_score - 0.1*enemy_score;
 }
 //由于五子棋搜索分支庞大，通常无法直接搜索到胜负终局，当搜索到一定深度时需要根据局面返回搜索结果。
