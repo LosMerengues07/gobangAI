@@ -33,7 +33,7 @@ int minMaxSearch(int now_play, int depth, int alpha, int beta) {
 
 	auto choices = createMoves(now_play);
 
-	for (auto p : choices) {
+	for (auto & p : choices) {
 		chessBoard[p.first][p.second] = now_play;
 
 		int val = -minMaxSearch(3 - now_play, depth - 1, -beta, -alpha);

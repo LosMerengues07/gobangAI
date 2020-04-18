@@ -42,6 +42,11 @@ struct ScoreWithP {
 bool gameover(pair<int, int> node, int player); //判断是否游戏结束
 void printValueBoard();
 bool hasNeighbor(pair<int, int> point);
+
+//获取对手颜色
+inline int getOppo(int player) {
+	return 3 - player;
+}
 #endif
 
 
