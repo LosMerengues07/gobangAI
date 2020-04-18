@@ -1,8 +1,4 @@
-#include "define.h"
-#include "createmoves.h"
-#include "makemove.h"
-#include "evaluate.h"
-#include "printchessboard.h"
+#include "searchmove.h"
 
 int BASE_DEPTH = 5;
 int searchMove() //搜索函数主体
@@ -25,8 +21,8 @@ int searchMove() //搜索函数主体
 int DEPTH = 4;
 int next_x, next_y;
 
-int minMaxSearch(int now_play, int depth, int alpha, int beta) {
-	if (depth <= 0) {
+int minMaxSearch(int now_play, int depth, int alpha, int beta, GameLoop & gl) {
+	if (depth <= 0 || gl.isLose() || gl.isWin()) {
 		int e = evaluate(now_play, getOppo(now_play));
 		return e;
 	}
@@ -36,7 +32,7 @@ int minMaxSearch(int now_play, int depth, int alpha, int beta) {
 	for (auto & p : choices) {
 		chessBoard[p.first][p.second] = now_play;
 
-		int val = -minMaxSearch(getOppo(now_play), depth - 1, -beta, -alpha);
+		int val = -minMaxSearch(getOppo(now_play), depth - 1, -beta, -alpha, gl);
 
 		chessBoard[p.first][p.second] = blank;
 

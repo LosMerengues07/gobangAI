@@ -12,15 +12,15 @@ class GameLoop
 	string log = "";
 	void printMenu();
 	void printLog();
-	bool isWin();
-	bool isLose();
+
 	void userLoop();
 
 	void aiLoop();
 
 public:
 	GameLoop(bool user_is_black);
-
+	bool isWin();
+	bool isLose();
 	void run();
 	~GameLoop();
 };

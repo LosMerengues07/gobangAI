@@ -74,7 +74,7 @@ void GameLoop::userLoop()
 
 void GameLoop::aiLoop()
 {
-	minMaxSearch(ai_color, DEPTH, -inf, +inf);
+	minMaxSearch(ai_color, DEPTH, -inf, +inf, *this);
 	chessBoard[next_x][next_y] = ai_color;
 	//random search bug: will endless loop if table  is full
 	//int rx, ry;
