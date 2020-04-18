@@ -1,48 +1,48 @@
 #include "BlankEvaluate.h"
 
 int BlankEvaluate::valueBoard[GRID_NUM][GRID_NUM];
-//int getLine(pair<int, int> node, int i, int j)
-//{ // node：当前点  i：方向  j：坐标相对值 
-//	int x = node.first;
-//	int y = node.second;
-//	switch (i)
-//	{
-//	case 0:
-//		break;
-//	case 1:
-//		x = x + j;
-//		break;
-//	case 2:
-//		x = x + j;
-//		y = y + j;
-//		break;
-//	case 3:
-//		y = y + j;
-//		break;
-//	case 4:
-//		x = x - j;
-//		y = y + j;
-//		break;
-//	case 5:
-//		x = x - j;
-//		break;
-//	case 6:
-//		x = x - j;
-//		y = y - j;
-//		break;
-//	case 7:
-//		y = y - j;
-//		break;
-//	case 8:
-//		x = x + j;
-//		y = y - j;
-//	}
-//	if (!inboard(x, y))
-//	{ // 越界处理
-//		return out;
-//	}
-//	return chessBoard[x][y];
-//}
+int BlankEvaluate::getLine(pair<int, int> node, int i, int j)
+{ // node：当前点  i：方向  j：坐标相对值 
+	int x = node.first;
+	int y = node.second;
+	switch (i)
+	{
+	case 0:
+		break;
+	case 1:
+		x = x + j;
+		break;
+	case 2:
+		x = x + j;
+		y = y + j;
+		break;
+	case 3:
+		y = y + j;
+		break;
+	case 4:
+		x = x - j;
+		y = y + j;
+		break;
+	case 5:
+		x = x - j;
+		break;
+	case 6:
+		x = x - j;
+		y = y - j;
+		break;
+	case 7:
+		y = y - j;
+		break;
+	case 8:
+		x = x + j;
+		y = y - j;
+	}
+	if (!inboard(x, y))
+	{ // 越界处理
+		return out;
+	}
+	return chessBoard[x][y];
+}
 
 int BlankEvaluate::evaluate(pair<int, int> node, int cur_color, int oppo_color, bool defend = false)
 { //  target_player:当前计算的player的代号
