@@ -3,7 +3,6 @@
 int chessBoard[GRID_NUM][GRID_NUM];//定义棋盘
 int valueBoard[GRID_NUM][GRID_NUM];//棋盘估值
 
-
 //只用检测一半的出发点
 int directions[4][2] = {
 	1, 0,

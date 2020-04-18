@@ -1,6 +1,21 @@
 #include "GameLoop.h"
 GameLoop::GameLoop(bool user_is_black)
 {
+	score_map["01100"]  = 50;
+	score_map["00110"]  = 50;
+	score_map["11010"]  = 200;
+	score_map["00111"]  = 500;
+	score_map["11100"]  = 500;
+	score_map["01110"]  = 5000;
+	score_map["010110"] = 5000;
+	score_map["011010"] = 5000;
+	score_map["11101"]  = 5000;
+	score_map["11011"]  = 5000;
+	score_map["10111"]  = 5000;
+	score_map["11110"]  = 5000;
+	score_map["01111"]  = 5000;
+	score_map["011110"] = 50000;
+	score_map["11111"]  = 99999999;
 	if (user_is_black)
 	{
 		user_color = black;
@@ -59,34 +74,14 @@ void GameLoop::userLoop()
 
 void GameLoop::aiLoop()
 {
-	
-	minMaxSearch(ai_color, DEPTH, -inf, +inf);
-	chessBoard[next_x][next_y] = ai_color;
 	//random search bug: will endless loop if table  is full
-	//evaluate_all(ai_color, user_color);
-	//int max = valueBoard[1][1];
-	//int max_x = 1, max_y = 1;
-	//for (int i = 1; i < GRID_NUM; i++)
-	//{
-	//	for (int j = 1; j < GRID_NUM; j++)
-	//	{
-	//		if (valueBoard[i][j] > max)
-	//		{
-	//			max = valueBoard[i][j];
-	//			max_x = i;
-	//			max_y = j;
-	//		}
-	//	}
-	//} 
-	//if (max == 0)
-	//{ 
-	//	do
-	//	{
-	//		max_x = rand() % GRID_NUM;
-	//		max_y = rand() % GRID_NUM;
-	//	} while (chessBoard[max_x][max_y] != blank);
-	//}
-	//chessBoard[max_x][max_y] = ai_color;
+	int rx, ry;
+	do
+	{
+		rx = rand() % GRID_NUM;
+		ry = rand() % GRID_NUM;
+	} while (chessBoard[rx][ry] != blank);
+	chessBoard[rx][ry] = ai_color;
 }
 
 void GameLoop::run()
@@ -96,6 +91,8 @@ void GameLoop::run()
 		system("cls");
 		printMenu();
 		print();// ‰≥ˆ∆Â≈Ã
+		//cout << "score: " << evaluate(ai_color, user_color) << endl;
+
 		//printValueBoard(); // ‰≥ˆπ¿÷µ
 		if (isWin())
 		{

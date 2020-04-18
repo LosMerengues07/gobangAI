@@ -13,7 +13,7 @@
 #include <algorithm>
 #include <ctime>
 #include <assert.h>
-
+#include <map>
 using namespace std;
 
 #define out -1		//∆Â≈ÃÕ‚
@@ -29,6 +29,7 @@ using namespace std;
 #define GRID_NUM 16	//∆Â≈ÃπÊƒ£	
 extern int chessBoard[GRID_NUM][GRID_NUM]; //∆Â≈Ã
 extern int valueBoard[GRID_NUM][GRID_NUM]; //∆Â≈Ã
+extern map<string, int> score_map;
 
 struct ScoreWithP {
 	int score;

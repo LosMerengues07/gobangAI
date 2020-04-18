@@ -27,8 +27,8 @@ int next_x, next_y;
 
 int minMaxSearch(int now_play, int depth, int alpha, int beta) {
 	if (depth <= 0) {
-		int e = evaluate(now_play);
-		return e;
+		//int e = evaluate(now_play);
+		//return e;
 	}
 
 	auto choices = createMoves(now_play);
