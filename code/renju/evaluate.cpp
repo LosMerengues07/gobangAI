@@ -109,7 +109,6 @@ int cal_score(pair<int, int> node, int direction ,int my_player, int ai_color, i
         }
         string tmp_shap5 = pos[0] + pos[1] + pos[2] + pos[3] + pos[4];
         string tmp_shap6 = pos[0] + pos[1] + pos[2] + pos[3] + pos[4] + pos[5];
-        cout << tmp_shap5 << "   " << tmp_shap6 << endl;
         for (map<string, int>::iterator it = score_map.begin(); it != score_map.end(); ++it)
         {
             if (tmp_shap5 == it->first || tmp_shap6 == it->first)
