@@ -23,7 +23,7 @@ using namespace std;
 
 #define USER 11
 #define AI 12
-#define inf 10000000		
+#define inf 1000000000
 #define inboard(a,b) (a>0 && a<=15 && b>0 && b<=15)		//用于检验招法是否在棋盘上
 
 #define GRID_NUM 16	//棋盘规模	
