@@ -10,14 +10,14 @@ vector<pair<int, int>> createMoves(int player) //生成全部合法走法集
 
 	
 	//为了节约时间,仅产生周围已有落子的
-	//TODO:之后将考虑延伸成线段的棋子2格
+
 	vector<pair<int, int>> choices;
 	vector<ScoreWithP> choicesWithS;
 	for (int i = 0; i < GRID_NUM; i++) {
 		for (int j = 0; j < GRID_NUM; j++) {
-			if (chessBoard[i][j] == blank &&
+			if (chessBoard[i][j] == blank &&	//TODO:之后将考虑延伸成线段的棋子2格
 				hasNeighbor(make_pair(i, j))) {
-				int score = BlankEvaluate::evaluate(make_pair(i, j), player, getOppo(player)) + BlankEvaluate::evaluate(make_pair(i, j), getOppo(player), player, true);
+				int score = BlankEvaluate::evaluate(make_pair(i, j), player, getOppo(player), false) + BlankEvaluate::evaluate(make_pair(i, j), getOppo(player), player, true);
 				ScoreWithP sp(score, i, j);
 				choicesWithS.push_back(sp);
 			}

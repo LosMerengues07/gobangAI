@@ -7,11 +7,10 @@ class BlankEvaluate
 {
 public:
 	static int valueBoard[GRID_NUM][GRID_NUM]; //∆Â≈Ã
-	static int evaluate(pair<int, int> node, int ai_color, int user_color, bool defend = false);
+	static int evaluate(pair<int, int> node, int ai_color, int user_color, bool defend);
 	static void evaluate_all(int ai_color, int user_color);
 
 
 	BlankEvaluate();
 	~BlankEvaluate();
 };
-

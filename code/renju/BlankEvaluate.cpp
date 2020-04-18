@@ -1,4 +1,6 @@
 #include "BlankEvaluate.h"
+
+int BlankEvaluate::valueBoard[GRID_NUM][GRID_NUM];
 //int getLine(pair<int, int> node, int i, int j)
 //{ // node：当前点  i：方向  j：坐标相对值 
 //	int x = node.first;

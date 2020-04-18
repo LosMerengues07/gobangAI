@@ -42,6 +42,9 @@
     <ClCompile Include="GameLoop.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="BlankEvaluate.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h">
@@ -63,6 +66,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="GameLoop.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="BlankEvaluate.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
