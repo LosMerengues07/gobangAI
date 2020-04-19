@@ -14,6 +14,7 @@
 #include <ctime>
 #include <assert.h>
 #include <map>
+#include <time.h>
 using namespace std;
 
 #define out -1		//棋盘外
@@ -25,7 +26,8 @@ using namespace std;
 #define AI 12
 #define inf 1000000000
 #define inboard(a,b) (a>0 && a<=15 && b>0 && b<=15)		//用于检验招法是否在棋盘上
-#define _DEBUG_
+//#define _DEBUG_
+#define _TEST_
 #define GRID_NUM 16	//棋盘规模	
 extern int chessBoard[GRID_NUM][GRID_NUM]; //棋盘
 extern int valueBoard[GRID_NUM][GRID_NUM]; //棋盘

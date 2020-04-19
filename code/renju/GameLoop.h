@@ -15,10 +15,16 @@ class GameLoop
 
 	void userLoop();
 
-	void aiLoop();
+
 
 public:
 	GameLoop(bool ai_is_black);
+	inline void clearBoard() {
+		for (int i = 0; i < GRID_NUM; i++)
+			for (int j = 0; j < GRID_NUM; j++)
+				chessBoard[i][j] = blank;
+	}
+	void aiLoop();
 	bool isWin();
 	bool isLose();
 	bool isGameOver(int last_x, int last_y, int last_color);

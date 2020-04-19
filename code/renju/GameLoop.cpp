@@ -29,13 +29,7 @@ GameLoop::GameLoop(bool ai_is_black)
 		cur_turn = USER;
 	}
 
-	for (int i = 0; i < GRID_NUM; i++)
-	{
-		for (int j = 0; j < GRID_NUM; j++)
-		{
-			chessBoard[i][j] = blank;
-		}
-	}
+	clearBoard();
 
 	//create_initialize();
 }

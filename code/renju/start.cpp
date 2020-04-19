@@ -4,6 +4,7 @@
 #include "makemove.h"
 #include "GameLoop.h"
 #include <conio.h>
+#include "test.h"
 
 void printMenu()
 {
@@ -14,8 +15,16 @@ void printMenu()
 	cout << "输入: move x y  表示落子点" << endl;
 	cout << "输入: regret    表示悔棋" << endl;
 }
+
+
+
 int main()
 {
+#ifdef _TEST_
+	test();
+	return 0;
+#endif // _TEST_
+
 	srand(time(NULL));
 
 	while (true)
