@@ -96,6 +96,9 @@ void GameLoop::userLoop()
 			throw 1;
 		}
 	}
+	else if (cmd.compare("end") == 0) {
+		throw string("return");
+	}
 	else
 	{
 		throw - 1;
@@ -105,7 +108,7 @@ void GameLoop::userLoop()
 
 void GameLoop::aiLoop()
 {
-	//minMaxSearch(ai_color, DEPTH, -inf, +inf, *this);
+	//minMaxHeauSearch(ai_color, DEPTH, -inf, +inf, *this);
 	//if (user_steps.size()) {
 	//	auto & last_step = user_steps
 	//}
@@ -172,6 +175,9 @@ void GameLoop::run()
 					cout << "regret!" << endl;
 				cur_turn = USER;
 				break;
+			}
+			catch (string s) {
+				return;
 			}
 			cur_turn = AI;
 			break;

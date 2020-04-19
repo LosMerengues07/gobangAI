@@ -1,6 +1,6 @@
 #pragma once
 #include "define.h"
-//适用于heuristic create moves
+//用于heuristic create moves
 //参考https://www.cnblogs.com/maxuewei2/p/4825520.html#daima
 class BlankEvaluate
 {

@@ -1,34 +1,16 @@
 #include "searchmove.h"
 
-
-int searchMove() //搜索函数主体
-{
-
-	return 0;
-}
-
-//
-//int killSearch(int now_player, int depth, int alpha, int beta) {
-//	int score, num_of_ava;
-//
-//	int flag = kill_value(now_player);
-//	if (flag)
-//		return flag;
-//
-//
-//	return 0;
-//}
 int DEPTH = 4;
 int next_x, next_y;
-clock_t start_time;
-double g_time_limit = inf;
-bool need_time_limit = false;
-int g_alpha;
+clock_t start_time;//本次搜索开始时间
+double g_time_limit = inf;//时间限制
+bool need_time_limit = false;//是否打开时间搜索限制
+int g_alpha;//迭代加深算法中存储公共的最大的alpha
 
-int last_x = -1;
+int last_x = -1;//存储迭代算法中上轮迭代时的x,y坐标和色彩
 int last_y = -1;
 int last_color;
-int minMaxSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl)
+int minMaxHeauSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl)
 {
 	if (need_time_limit && clock() - start_time > g_time_limit)
 	{
@@ -36,7 +18,11 @@ int minMaxSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl)
 		return e;
 	}
 
-	if (depth <= 0 || gl.isGameOver(last_x, last_y, last_color))
+	if (gl.isGameOver(last_x, last_y, last_color)) {
+		return -99999999;
+	}
+
+	if (depth <= 0  )
 	{
 		int e = Evaluate(now_play, getOppo(now_play));
 		return e;
@@ -51,7 +37,7 @@ int minMaxSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl)
 		last_y = p.second;
 		last_color = now_play;
 
-		int val = -minMaxSearch(getOppo(now_play), depth - 1, -beta, -alpha, gl);
+		int val = -minMaxHeauSearch(getOppo(now_play), depth - 1, -beta, -alpha, gl);
 
 		chessBoard[p.first][p.second] = blank;
 
@@ -72,7 +58,7 @@ int minMaxSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl)
 	return alpha;
 }
 
-int minMaxSimpleSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl)
+int minMaxAlphaSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl)
 {
 	if (need_time_limit && clock() - start_time > g_time_limit)
 	{
@@ -80,7 +66,11 @@ int minMaxSimpleSearch(int now_play, int depth, int alpha, int beta, GameLoop& g
 		return e;
 	}
 
-	if (depth <= 0 || gl.isGameOver(last_x, last_y, last_color))
+	if (gl.isGameOver(last_x, last_y, last_color)) {
+		return -99999999;
+	}
+
+	if (depth <= 0)
 	{
 		int e = Evaluate(now_play, getOppo(now_play));
 		return e;
@@ -95,7 +85,7 @@ int minMaxSimpleSearch(int now_play, int depth, int alpha, int beta, GameLoop& g
 		last_y = p.second;
 		last_color = now_play;
 
-		int val = -minMaxSimpleSearch(getOppo(now_play), depth - 1, -beta, -alpha, gl);
+		int val = -minMaxAlphaSearch(getOppo(now_play), depth - 1, -beta, -alpha, gl);
 
 		chessBoard[p.first][p.second] = blank;
 
@@ -120,8 +110,11 @@ int minMaxSimpleSearch(int now_play, int depth, int alpha, int beta, GameLoop& g
 
 int minMaxZobristSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl)
 {
+	if (gl.isGameOver(last_x, last_y, last_color)) {
+		return  -99999999;
+	}
 
-	if ((need_time_limit && clock() - start_time > g_time_limit) || depth <= 0 || gl.isGameOver(last_x, last_y, last_color))
+	if ((need_time_limit && clock() - start_time > g_time_limit) || depth <= 0 )
 	{
 		auto hist = gl.zobrist_map.find(make_pair(gl.cur_zobrist[0], gl.cur_zobrist[1]));
 		if (hist != gl.zobrist_map.end()) {
@@ -171,7 +164,11 @@ int minMaxZobristSearch(int now_play, int depth, int alpha, int beta, GameLoop& 
 
 int minMaxHeauZobristSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl)
 {
-	if (depth <= 0 || gl.isGameOver(last_x, last_y, last_color) || (need_time_limit && clock() - start_time > g_time_limit))
+	if (gl.isGameOver(last_x, last_y, last_color)) {
+		return  -99999999;
+	}
+
+	if (depth <= 0 ||  (need_time_limit && clock() - start_time > g_time_limit))
 	{
 		auto hist = gl.zobrist_map.find(make_pair(gl.cur_zobrist[0], gl.cur_zobrist[1]));
 		if (hist != gl.zobrist_map.end()) {
@@ -218,7 +215,7 @@ int minMaxHeauZobristSearch(int now_play, int depth, int alpha, int beta, GameLo
 	return alpha;
 }
 //无alpha,beta优化
-int  minMaxNoAlphaSearch(int now_play, int depth, GameLoop& gl) {
+int  minMaxSearch(int now_play, int depth, GameLoop& gl) {
 	int best = -inf;
 	if (depth <= 0 || gl.isGameOver(last_x, last_y, last_color)) {
 		int e = Evaluate(now_play, getOppo(now_play));
@@ -231,7 +228,7 @@ int  minMaxNoAlphaSearch(int now_play, int depth, GameLoop& gl) {
 		last_y = p.second;
 		last_color = now_play;
 
-		int val = -minMaxNoAlphaSearch(getOppo(now_play), depth - 1, gl);
+		int val = -minMaxSearch(getOppo(now_play), depth - 1, gl);
 
 		chessBoard[p.first][p.second] = blank;
 
@@ -257,7 +254,7 @@ int deepSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl, doubl
 		DEPTH = i;
 		g_alpha = alpha;
 		//minMaxHeauZobristSearch(now_play, DEPTH, alpha, beta, gl);
-		minMaxSearch(now_play, DEPTH, alpha, beta, gl);
+		minMaxHeauSearch(now_play, DEPTH, alpha, beta, gl);
 	}
 #ifdef _DEBUG_
 	cout << "search_depth" <<  DEPTH << endl;

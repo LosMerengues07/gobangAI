@@ -6,14 +6,8 @@ vector<pair<int, int>> ai_steps; //记录ai
 vector<pair<int, int>> user_steps; //记录用户
 map<string, int> score_map;  //记录不同棋局的得分
 int turns = 0;
-//只用检测一半的出发点
-int directions[4][2] = {
-	1, 0,
-	0, 1,
-	1, 1,
-	-1, 1
-};
 
+//存储距离1之内的邻点偏移量
 int neighbor[8][2] = {
 	-1, -1,
 	-1, 0,
@@ -25,6 +19,7 @@ int neighbor[8][2] = {
 	1, 1
 };
 
+//存储距离2之内的邻点偏移量
 int lNeighbor[24][2] = {
 	-2, -2,
 	-2, -1,
@@ -52,36 +47,6 @@ int lNeighbor[24][2] = {
 	2, 2
 };
 
-bool gameover(pair<int, int> & node, int player, int dir){//判断是否游戏结束{
-	int x = node.first;
-	int y = node.second;
-	for (int j = 0; j < 5; j++)
-	{
-		int nx = x + directions[dir][0] * j;
-		int ny = y + directions[dir][1] * j;
-		if (!inboard(nx, ny) || chessBoard[nx][ny] != player)
-		{
-			return false;
-		}
-	}
-	return true;
-}
-
-//判断从node出发,是否能连出5子
-bool gameover(pair<int, int>& node, int player)
-{
-	int x = node.first;
-	int y = node.second;
-
-	for (int i = 0; i < 4; i++)
-	{
-		if (gameover(node, player, i))
-			return true;
-	}
-
-	return false;
-}
-
 void printValueBoard()
 {
 	for (int i = 1; i < GRID_NUM; i++)
@@ -94,6 +59,7 @@ void printValueBoard()
 	}
 }
 
+//是否在距离1以内有相邻的非空点
 bool hasNeighbor(pair<int, int>& point) {
 	for (int i = 0; i < 8; i++) {
 		int dx = neighbor[i][0];
@@ -106,6 +72,7 @@ bool hasNeighbor(pair<int, int>& point) {
 	return false;
 }
 
+//是否在距离2以内有相邻的非空点
 bool hasLNeighbor(pair<int, int>& point) {
 	for (int i = 0; i < 24; i++) {
 		int dx = lNeighbor[i][0];

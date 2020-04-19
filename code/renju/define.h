@@ -30,8 +30,8 @@ using namespace std;
 #define AI 12
 #define inf 1000000000
 #define inboard(a,b) (a>0 && a<=15 && b>0 && b<=15)		//用于检验招法是否在棋盘上
-//#define _DEBUG_
-//#define _TEST_
+//#define _DEBUG_  //这个选项打开时,将会在每次ai落子后显示搜索深度信息
+//#define _TEST_	//这个选项打开时,将会进行ai算法测试
 #define GRID_NUM 16	//棋盘规模	
 extern int chessBoard[GRID_NUM][GRID_NUM]; //棋盘
 extern int valueBoard[GRID_NUM][GRID_NUM]; //棋盘

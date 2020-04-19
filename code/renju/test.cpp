@@ -4,27 +4,28 @@
 #define USE_HEAU 4
 #define USE_ZOBRIST 8
 #define USE_HEAU_ZOBRIST 16
+//选项使用时，a|b|c代表测试a和b和c
 
 void testSearch(GameLoop & game, int option) {
 	clock_t st, endt;
 
 	if (option & USE_HEAU) {
 		st = clock();
-		minMaxSearch(black, DEPTH, -inf, +inf, game);
+		minMaxHeauSearch(black, DEPTH, -inf, +inf, game);
 		endt = clock();
 		cout << "heuristic search time:" << (double)(endt - st) / CLOCKS_PER_SEC << endl;
 	}
 
 	if (option & USE_ALPHA) {
 		st = clock();
-		minMaxSimpleSearch(black, DEPTH, -inf, +inf, game);
+		minMaxAlphaSearch(black, DEPTH, -inf, +inf, game);
 		endt = clock();
 		cout << "alpha beta time:" << (double)(endt - st) / CLOCKS_PER_SEC << endl;
 	}
 
 	if (option & USE_MINMAX) {
 		st = clock();
-		minMaxNoAlphaSearch(black, DEPTH, game);
+		minMaxSearch(black, DEPTH, game);
 		endt = clock();
 		cout << "min max time:" << (double)(endt - st) / CLOCKS_PER_SEC << endl;
 	}
@@ -49,7 +50,7 @@ void testSearch(GameLoop & game, int option) {
 void test() {
 	GameLoop game = GameLoop(true);
 
-
+	
 	game.clearBoard();
 	cout << "-----------start2----------- " << endl;
 	chessBoard[7][8] = black;
@@ -62,11 +63,11 @@ void test() {
 	game.clearBoard();
 	cout << "-----------middle2----------- " << endl;
 	int black_list[][2] = {
-		5, 6,
-		5, 9,
-		6, 6,
-		7, 7,
-		8, 7,
+		5, 6,	// 中盘
+		5, 9,	//	的
+		6, 6,	//	一个例子
+		7, 7,	//	的黑棋
+		8, 7,	//	坐标
 		8, 8,
 		9, 7,
 		9, 8,
