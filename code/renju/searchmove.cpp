@@ -19,7 +19,8 @@ int minMaxHeauSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl)
 	}
 
 	if (gl.isGameOver(last_x, last_y, last_color)) {
-		return -99999999;
+		int e = Evaluate(now_play, getOppo(now_play));
+		return e;
 	}
 
 	if (depth <= 0  )
