@@ -84,8 +84,11 @@ int deepSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl, doubl
 		g_alpha = alpha;
 		minMaxSearch(now_play, DEPTH, alpha, beta, gl);
 	}
-	cout << "search_depth" << DEPTH << endl;
+#ifdef _DEBUG_
+	cout << "search_depth" <<  DEPTH << endl;
 	system("pause");
+#endif
 	need_time_limit = false;
+
 	return 0;
 }

@@ -102,7 +102,9 @@ void GameLoop::aiLoop()
 	//if (user_steps.size()) {
 	//	auto & last_step = user_steps
 	//}
-	deepSearch(ai_color, DEPTH, -inf, +inf, *this, 1);
+	do {
+		deepSearch(ai_color, DEPTH, -inf, +inf, *this, 1);
+	} while (!inboard(next_x, next_y) || chessBoard[next_x][next_y] != blank);
 	makeMove(next_x, next_y, AI, ai_color);
 	//random search bug: will endless loop if table  is full
 	//int rx, ry;
@@ -124,6 +126,8 @@ void GameLoop::run()
 		//cout << "score: " << evaluate(ai_color, user_color) << endl;
 
 		//printValueBoard(); //输出估值
+
+
 		if (isWin())
 		{
 			cout << "you win" << endl;
@@ -134,6 +138,14 @@ void GameLoop::run()
 		if (isLose())
 		{
 			cout << "you lose" << endl;
+			system("pause");
+			return;
+		}
+
+		//平局
+		if (ai_steps.size() + user_steps.size() == GRID_NUM * GRID_NUM)
+		{
+			cout << "draw" << endl;
 			system("pause");
 			return;
 		}
