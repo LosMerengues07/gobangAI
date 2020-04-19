@@ -1,7 +1,7 @@
 #include "BlankEvaluate.h"
 
 int BlankEvaluate::valueBoard[GRID_NUM][GRID_NUM];
-int BlankEvaluate::getLine(pair<int, int> node, int i, int j)
+int BlankEvaluate::getPointStatus(pair<int, int> node, int i, int j)
 { // node：当前点  i：方向  j：坐标相对值 
 	int x = node.first;
 	int y = node.second;
@@ -44,10 +44,10 @@ int BlankEvaluate::getLine(pair<int, int> node, int i, int j)
 	return chessBoard[x][y];
 }
 
-int BlankEvaluate::evaluate(pair<int, int> node, int cur_color, int oppo_color, bool defend = false)
+int BlankEvaluate::evaluatePoint(pair<int, int> node, int cur_color, int oppo_color, bool defend = false)
 { //  target_player:当前计算的player的代号
 	//defend 为1时,说明是从对方角度看的,我需要进行防御
-	if (getLine(node, 0, 0) != blank) //判断此位置是否已经落子
+	if (getPointStatus(node, 0, 0) != blank) //判断此位置是否已经落子
 	{
 		return -1000;
 	}
@@ -56,50 +56,50 @@ int BlankEvaluate::evaluate(pair<int, int> node, int cur_color, int oppo_color, 
 	int target_color = cur_color;
 	int other_color = oppo_color;
 
-	for (int i = 1; i <= 8; i++)
-	{ // 8个方向
-// 活四 01111* *代表当前空位置  0 代表其他空位置    下同 
-		if (getLine(node, i, -1) == target_color && getLine(node, i, -2) == target_color
-			&& getLine(node, i, -3) == target_color && getLine(node, i, -4) == target_color
-			&& getLine(node, i, -5) == blank)
+	for (int i = 1; i <= 8; i++)  // 8个方向
+	{ 
+		// 活四 01111* *代表当前空位置  0 代表其他空位置    下同 
+		if (getPointStatus(node, i, -1) == target_color && getPointStatus(node, i, -2) == target_color
+			&& getPointStatus(node, i, -3) == target_color && getPointStatus(node, i, -4) == target_color
+			&& getPointStatus(node, i, -5) == blank)
 		{
 			value += 300000;
 			if (defend) { value -= 500; }
 			continue;
 		}
 		// 死四A 21111*
-		if (getLine(node, i, -1) == target_color && getLine(node, i, -2) == target_color
-			&& getLine(node, i, -3) == target_color && getLine(node, i, -4) == target_color
-			&& (getLine(node, i, -5) == other_color || getLine(node, i, -5) == out))
+		if (getPointStatus(node, i, -1) == target_color && getPointStatus(node, i, -2) == target_color
+			&& getPointStatus(node, i, -3) == target_color && getPointStatus(node, i, -4) == target_color
+			&& (getPointStatus(node, i, -5) == other_color || getPointStatus(node, i, -5) == out))
 		{
 			value += 250000;
 			if (defend) { value -= 500; }
 			continue;
 		}
 		// 死四B 111*1
-		if (getLine(node, i, -1) == target_color && getLine(node, i, -2) == target_color
-			&& getLine(node, i, -3) == target_color && getLine(node, i, 1) == target_color)
+		if (getPointStatus(node, i, -1) == target_color && getPointStatus(node, i, -2) == target_color
+			&& getPointStatus(node, i, -3) == target_color && getPointStatus(node, i, 1) == target_color)
 		{
 			value += 240000;
 			if (defend) { value -= 500; }
 			continue;
 		}
 		// 死四C 11*11
-		if (getLine(node, i, -1) == target_color && getLine(node, i, -2) == target_color
-			&& getLine(node, i, 1) == target_color && getLine(node, i, 2) == target_color)
+		if (getPointStatus(node, i, -1) == target_color && getPointStatus(node, i, -2) == target_color
+			&& getPointStatus(node, i, 1) == target_color && getPointStatus(node, i, 2) == target_color)
 		{
 			value += 230000;
 			if (defend) { value -= 500; }
 			continue;
 		}
 		// 活三 近3位置 111*0
-		if (getLine(node, i, -1) == target_color && getLine(node, i, -2) == target_color
-			&& getLine(node, i, -3) == target_color)
+		if (getPointStatus(node, i, -1) == target_color && getPointStatus(node, i, -2) == target_color
+			&& getPointStatus(node, i, -3) == target_color)
 		{
-			if (getLine(node, i, 1) == blank)
+			if (getPointStatus(node, i, 1) == blank)
 			{
 				value += 750;
-				if (getLine(node, i, -4) == blank)
+				if (getPointStatus(node, i, -4) == blank)
 				{
 					value += 3150;
 					if (defend) { value -= 300; }
@@ -107,7 +107,7 @@ int BlankEvaluate::evaluate(pair<int, int> node, int cur_color, int oppo_color, 
 			}
 			else
 			{
-				if (getLine(node, i, -4) == blank)
+				if (getPointStatus(node, i, -4) == blank)
 				{
 					value += 500;
 				}
@@ -115,23 +115,23 @@ int BlankEvaluate::evaluate(pair<int, int> node, int cur_color, int oppo_color, 
 			continue;
 		}
 		// 活三 远3位置 1110*
-		if (getLine(node, i, -1) == blank && getLine(node, i, -2) == target_color
-			&& getLine(node, i, -3) == target_color && getLine(node, i, -4) == target_color)
+		if (getPointStatus(node, i, -1) == blank && getPointStatus(node, i, -2) == target_color
+			&& getPointStatus(node, i, -3) == target_color && getPointStatus(node, i, -4) == target_color)
 		{
 			value += 350;
 			continue;
 		}
 		// 死三 11*1
-		if (getLine(node, i, -1) == target_color && getLine(node, i, -2) == target_color
-			&& getLine(node, i, 1) == target_color)
+		if (getPointStatus(node, i, -1) == target_color && getPointStatus(node, i, -2) == target_color
+			&& getPointStatus(node, i, 1) == target_color)
 		{
 			value += 600;
-			if (getLine(node, i, -3) == blank && getLine(node, i, 2) == blank)
+			if (getPointStatus(node, i, -3) == blank && getPointStatus(node, i, 2) == blank)
 			{
 				value += 3150;
 				continue;
 			}
-			if ((getLine(node, i, -3) == other_color || getLine(node, i, -3) == out) && (getLine(node, i, 2) == other_color || getLine(node, i, 2) == out))
+			if ((getPointStatus(node, i, -3) == other_color || getPointStatus(node, i, -3) == out) && (getPointStatus(node, i, 2) == other_color || getPointStatus(node, i, 2) == out))
 			{
 				continue;
 			}
@@ -142,8 +142,8 @@ int BlankEvaluate::evaluate(pair<int, int> node, int cur_color, int oppo_color, 
 			}
 		}
 		//活二的个数   
-		if (getLine(node, i, -1) == target_color && getLine(node, i, -2) == target_color
-			&& getLine(node, i, -3) != other_color && getLine(node, i, 1) != other_color)
+		if (getPointStatus(node, i, -1) == target_color && getPointStatus(node, i, -2) == target_color
+			&& getPointStatus(node, i, -3) != other_color && getPointStatus(node, i, 1) != other_color)
 		{
 			numoftwo++;
 		}
@@ -154,13 +154,13 @@ int BlankEvaluate::evaluate(pair<int, int> node, int cur_color, int oppo_color, 
 			int temp = 0;
 			for (int l = 0; l <= 4; l++)
 			{
-				if (getLine(node, i, k + l) == target_color)
+				if (getPointStatus(node, i, k + l) == target_color)
 				{
 					temp++;
 				}
 				else
-					if (getLine(node, i, k + l) == other_color
-						|| getLine(node, i, k + l) == out)
+					if (getPointStatus(node, i, k + l) == other_color
+						|| getPointStatus(node, i, k + l) == out)
 					{
 						temp = 0;
 						break;
@@ -190,7 +190,7 @@ void BlankEvaluate::evaluate_all(int ai_color, int user_color)
 	{
 		for (int j = 1; j < GRID_NUM; j++)
 		{
-			valueBoard[i][j] = evaluate(make_pair(i, j), AI, ai_color, user_color) + evaluate(make_pair(i, j), USER, ai_color, user_color);
+			valueBoard[i][j] = evaluatePoint(make_pair(i, j), AI, ai_color, user_color) + evaluatePoint(make_pair(i, j), USER, ai_color, user_color);
 		}
 	}
 }

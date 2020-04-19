@@ -6,9 +6,9 @@ class BlankEvaluate
 {
 public:
 	static int valueBoard[GRID_NUM][GRID_NUM]; //∆Â≈Ã
-	static int evaluate(pair<int, int> node, int ai_color, int user_color, bool defend);
+	static int evaluatePoint(pair<int, int> node, int ai_color, int user_color, bool defend);
 	static void evaluate_all(int ai_color, int user_color);
-	static int getLine(pair<int, int> node, int i, int j);
+	static int getPointStatus(pair<int, int> node, int i, int j);
 
 	BlankEvaluate();
 	~BlankEvaluate();

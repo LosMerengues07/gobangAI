@@ -1,21 +1,21 @@
 #include "GameLoop.h"
 GameLoop::GameLoop(bool ai_is_black)
 {
-	score_map["01100"]  = 50;
-	score_map["00110"]  = 50;
-	score_map["11010"]  = 200;
-	score_map["00111"]  = 500;
-	score_map["11100"]  = 500;
-	score_map["01110"]  = 5000;
+	score_map["01100"] = 50;
+	score_map["00110"] = 50;
+	score_map["11010"] = 200;
+	score_map["00111"] = 500;
+	score_map["11100"] = 500;
+	score_map["01110"] = 5000;
 	score_map["010110"] = 5000;
 	score_map["011010"] = 5000;
-	score_map["11101"]  = 5000;
-	score_map["11011"]  = 5000;
-	score_map["10111"]  = 5000;
-	score_map["11110"]  = 5000;
-	score_map["01111"]  = 5000;
+	score_map["11101"] = 5000;
+	score_map["11011"] = 5000;
+	score_map["10111"] = 5000;
+	score_map["11110"] = 5000;
+	score_map["01111"] = 5000;
 	score_map["011110"] = 50000;
-	score_map["11111"]  = 99999999;
+	score_map["11111"] = 99999999;
 	if (ai_is_black)  //aiºÚÆåÏÈÊÖ
 	{
 		user_color = white;
@@ -67,21 +67,21 @@ void GameLoop::userLoop()
 	string cmd;
 	int x = -1, y = -1;
 	cin >> cmd;
-	if(cmd.empty())
-		throw -1;
+	if (cmd.empty())
+		throw - 1;
 	if (cmd.compare("move") == 0)
 	{
 		cin >> x >> y;
 		if (inboard(y, x) && chessBoard[y][x] == 0)
 			makeMove(y, x, USER, user_color);
 		else
-			throw -1;
+			throw - 1;
 	}
 	else if (cmd.compare("regret") == 0)
 	{
 		if (ai_steps.empty() || user_steps.empty())
 		{
-			throw -1;
+			throw - 1;
 		}
 		else
 		{
@@ -91,7 +91,7 @@ void GameLoop::userLoop()
 	}
 	else
 	{
-		throw -1;
+		throw - 1;
 	}
 
 }
@@ -147,7 +147,7 @@ void GameLoop::run()
 			}
 			catch (int i)
 			{
-				if(i == -1)
+				if (i == -1)
 					cout << "invalid input!" << endl;
 				else
 					cout << "regret!" << endl;
@@ -197,7 +197,8 @@ bool GameLoop::isLose()
 
 bool GameLoop::isGameOver(int last_x, int last_y, int last_color)
 {
-	for (int offset = -5; offset <= 0; offset++) {
+	for (int offset = -5; offset <= 0; offset++)
+	{
 		if (gameover(make_pair(last_x + offset, last_y), last_color, 0) ||
 			gameover(make_pair(last_x, last_y + offset), last_color, 1) ||
 			gameover(make_pair(last_x + offset, last_y + offset), last_color, 2) ||

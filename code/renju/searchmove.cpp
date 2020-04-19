@@ -28,20 +28,24 @@ int g_alpha;
 int last_x = -1;
 int last_y = -1;
 int last_color;
-int minMaxSearch(int now_play, int depth, int alpha, int beta, GameLoop & gl) {
-	if (difftime(time(NULL), start_time) > g_time_limit) {
-		int e = evaluate(now_play, getOppo(now_play));
+int minMaxSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl)
+{
+	if (difftime(time(NULL), start_time) > g_time_limit)
+	{
+		int e = Evaluate(now_play, getOppo(now_play));
 		return e;
 	}
 
-	if (depth <= 0 || gl.isGameOver(last_x, last_y, last_color)) {
-		int e = evaluate(now_play, getOppo(now_play));
+	if (depth <= 0 || gl.isGameOver(last_x, last_y, last_color))
+	{
+		int e = Evaluate(now_play, getOppo(now_play));
 		return e;
 	}
 
 	auto choices = createMoves(now_play);
 
-	for (auto & p : choices) {
+	for (auto& p : choices)
+	{
 		chessBoard[p.first][p.second] = now_play;
 		last_x = p.first;
 		last_y = p.second;
@@ -51,9 +55,11 @@ int minMaxSearch(int now_play, int depth, int alpha, int beta, GameLoop & gl) {
 
 		chessBoard[p.first][p.second] = blank;
 
-		if (val > alpha) {
+		if (val > alpha)
+		{
 			alpha = val;
-			if (depth == DEPTH && alpha > g_alpha) {
+			if (depth == DEPTH && alpha > g_alpha)
+			{
 				next_x = p.first;
 				next_y = p.second;
 
@@ -66,17 +72,19 @@ int minMaxSearch(int now_play, int depth, int alpha, int beta, GameLoop & gl) {
 	return alpha;
 }
 
-int deepSearch(int now_play, int depth, int alpha, int beta, GameLoop & gl, double time_limit) {
+int deepSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl, double time_limit)
+{
 	need_time_limit = true;
 	g_time_limit = time_limit;
 	start_time = time(NULL);
 
-	for (int i = 2; difftime(time(NULL), start_time) < g_time_limit ; i+= 2) {
+	for (int i = 2; difftime(time(NULL), start_time) < g_time_limit; i += 2)
+	{
 		DEPTH = i;
 		g_alpha = alpha;
 		minMaxSearch(now_play, DEPTH, alpha, beta, gl);
 	}
-	cout << "search_depth" <<  DEPTH << endl;
+	cout << "search_depth" << DEPTH << endl;
 	system("pause");
 	need_time_limit = false;
 	return 0;

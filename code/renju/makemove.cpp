@@ -1,6 +1,6 @@
 #include "define.h"
 #include "printchessboard.h"
-bool makeMove(int i, int j, int player ,int color)
+bool makeMove(int i, int j, int player, int color)	//执行落子操作
 {
 	chessBoard[i][j] = color;
 	if (player == AI)
@@ -11,11 +11,10 @@ bool makeMove(int i, int j, int player ,int color)
 	{
 		user_steps.push_back(make_pair(i, j));
 	}
-	//执行落子操作（chessboard[i][j]=1 & chessboard[i][j]=2）
 	return true;
 }
 
-void unMakeMove()
+void unMakeMove()	//撤销一回合的落子操作
 {
 	pair<int, int> ai_node = ai_steps.back();
 	pair<int, int> user_node = user_steps.back();
@@ -23,5 +22,4 @@ void unMakeMove()
 	user_steps.pop_back();
 	chessBoard[ai_node.first][ai_node.second] = blank;
 	chessBoard[user_node.first][user_node.second] = blank;
-	//撤销落子操作（chessboard[i][j]=0）
 }
