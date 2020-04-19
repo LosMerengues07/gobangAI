@@ -1,30 +1,48 @@
 #include "test.h"
-#define USE_HEU 1
+#define USE_MINMAX 1
 #define USE_ALPHA 2
-#define USE_MINMAX 4
+#define USE_HEAU 4
+#define USE_ZOBRIST 8
+#define USE_HEAU_ZOBRIST 16
 
 void testSearch(GameLoop & game, int option) {
 	clock_t st, endt;
 
-	if (option & 1) {
+	if (option & USE_HEAU) {
 		st = clock();
 		minMaxSearch(black, DEPTH, -inf, +inf, game);
 		endt = clock();
 		cout << "heuristic search time:" << (double)(endt - st) / CLOCKS_PER_SEC << endl;
 	}
 
-	if (option & 2) {
+	if (option & USE_ALPHA) {
 		st = clock();
 		minMaxSimpleSearch(black, DEPTH, -inf, +inf, game);
 		endt = clock();
 		cout << "alpha beta time:" << (double)(endt - st) / CLOCKS_PER_SEC << endl;
 	}
 
-	if (option & 4) {
+	if (option & USE_MINMAX) {
 		st = clock();
 		minMaxNoAlphaSearch(black, DEPTH, game);
 		endt = clock();
 		cout << "min max time:" << (double)(endt - st) / CLOCKS_PER_SEC << endl;
+	}
+
+	if (option & USE_ZOBRIST) {
+		st = clock();
+		game.cal_zobrist();
+		minMaxZobristSearch(black, DEPTH, -inf, +inf, game);
+		endt = clock();
+		cout << "zobrist time:" << (double)(endt - st) / CLOCKS_PER_SEC << endl;
+	}
+
+	if (option & USE_HEAU_ZOBRIST) {
+		st = clock();
+		game.cal_zobrist();
+		minMaxHeauZobristSearch(black, DEPTH, -inf, +inf, game);
+		endt = clock();
+		cout << "zobrist heau time:" << (double)(endt - st) / CLOCKS_PER_SEC << endl;
 	}
 }
 
@@ -39,7 +57,7 @@ void test() {
 	DEPTH = 2;
 
 	
-	testSearch(game, USE_ALPHA | USE_HEU | USE_MINMAX);
+	testSearch(game, 31);
 
 	game.clearBoard();
 	cout << "-----------middle2----------- " << endl;
@@ -77,7 +95,7 @@ void test() {
 
 	DEPTH = 2;
 
-	testSearch(game, USE_ALPHA | USE_HEU | USE_MINMAX);
+	testSearch(game, 31);
 
 
 	game.clearBoard();
@@ -87,7 +105,7 @@ void test() {
 	DEPTH = 4;
 
 
-	testSearch(game, USE_ALPHA | USE_HEU | USE_MINMAX);
+	testSearch(game, 31);
 
 	game.clearBoard();
 	cout << "-----------middle4----------- " << endl;
@@ -101,7 +119,7 @@ void test() {
 
 	DEPTH = 4;
 
-	testSearch(game, USE_ALPHA | USE_HEU );
+	testSearch(game, 30);
 
 	game.clearBoard();
 	cout << "-----------start6----------- " << endl;
@@ -110,7 +128,7 @@ void test() {
 	DEPTH = 6;
 
 
-	testSearch(game, USE_ALPHA | USE_HEU);
+	testSearch(game, 30);
 
 	game.clearBoard();
 	cout << "-----------middle6----------- " << endl;
@@ -124,5 +142,5 @@ void test() {
 
 	DEPTH = 6;
 
-	testSearch(game, USE_ALPHA | USE_HEU);
+	testSearch(game, USE_HEAU | USE_HEAU_ZOBRIST);
 }

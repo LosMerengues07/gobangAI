@@ -29,6 +29,19 @@ GameLoop::GameLoop(bool ai_is_black)
 		cur_turn = USER;
 	}
 
+	unsigned seed1 = std::chrono::system_clock::now().time_since_epoch().count();
+	std::mt19937_64 g2(seed1);
+	uint64_t u64Random = g2();
+
+	for (int i = 0; i < GRID_NUM; i++) {
+		for (int j = 0; j < GRID_NUM; j++) {
+			zobrist[i][j] = g2();
+		}
+	}
+
+	user_steps.clear();
+	ai_steps.clear();
+
 	clearBoard();
 
 	//create_initialize();
@@ -97,7 +110,7 @@ void GameLoop::aiLoop()
 	//	auto & last_step = user_steps
 	//}
 	do {
-		deepSearch(ai_color, DEPTH, -inf, +inf, *this, 1);
+		deepSearch(ai_color, DEPTH, -inf, +inf, *this, 2);
 	} while (!inboard(next_x, next_y) || chessBoard[next_x][next_y] != blank);
 	makeMove(next_x, next_y, AI, ai_color);
 	//random search bug: will endless loop if table  is full

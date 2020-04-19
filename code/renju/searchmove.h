@@ -12,6 +12,8 @@ int searchMove();//ËÑË÷ºËÐÄ
 int minMaxSearch(int now_play, int depth, int alpha, int beta, GameLoop & gl);
 int minMaxNoAlphaSearch(int now_play, int depth, GameLoop& gl);
 int minMaxSimpleSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl);
+int minMaxZobristSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl);
+int minMaxHeauZobristSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl);
 int deepSearch(int now_play, int depth, int alpha, int beta, GameLoop & gl, double time_limit);
 extern int next_x, next_y, last_x, last_y;
 extern int DEPTH;

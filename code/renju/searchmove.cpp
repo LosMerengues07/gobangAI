@@ -20,7 +20,7 @@ int searchMove() //搜索函数主体
 //}
 int DEPTH = 4;
 int next_x, next_y;
-time_t start_time;
+clock_t start_time;
 double g_time_limit = inf;
 bool need_time_limit = false;
 int g_alpha;
@@ -30,7 +30,7 @@ int last_y = -1;
 int last_color;
 int minMaxSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl)
 {
-	if (need_time_limit && difftime(time(NULL), start_time) > g_time_limit)
+	if (need_time_limit && clock() - start_time > g_time_limit)
 	{
 		int e = Evaluate(now_play, getOppo(now_play));
 		return e;
@@ -74,7 +74,7 @@ int minMaxSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl)
 
 int minMaxSimpleSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl)
 {
-	if (need_time_limit && difftime(time(NULL), start_time) > g_time_limit)
+	if (need_time_limit && clock() - start_time > g_time_limit)
 	{
 		int e = Evaluate(now_play, getOppo(now_play));
 		return e;
@@ -116,6 +116,107 @@ int minMaxSimpleSearch(int now_play, int depth, int alpha, int beta, GameLoop& g
 	return alpha;
 }
 
+//
+
+int minMaxZobristSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl)
+{
+
+	if ((need_time_limit && clock() - start_time > g_time_limit) || depth <= 0 || gl.isGameOver(last_x, last_y, last_color))
+	{
+		auto hist = gl.zobrist_map.find(make_pair(gl.cur_zobrist[0], gl.cur_zobrist[1]));
+		if (hist != gl.zobrist_map.end()) {
+			return hist->second;
+		}
+		else {
+			int e = Evaluate(now_play, getOppo(now_play));
+			gl.zobrist_map[make_pair(gl.cur_zobrist[0], gl.cur_zobrist[1])] = e;
+			return e;
+		}
+
+	}
+
+	auto choices = createSimpleMoves(now_play);
+
+	for (auto& p : choices)
+	{
+		chessBoard[p.first][p.second] = now_play;
+		gl.update_zobrist(p.first, p.second, now_play);
+
+		last_x = p.first;
+		last_y = p.second;
+		last_color = now_play;
+
+		int val = -minMaxZobristSearch(getOppo(now_play), depth - 1, -beta, -alpha, gl);
+
+		chessBoard[p.first][p.second] = blank;
+		gl.update_zobrist(p.first, p.second, now_play);
+
+		if (val > alpha)
+		{
+			alpha = val;
+			if (depth == DEPTH && alpha > g_alpha)
+			{
+				next_x = p.first;
+				next_y = p.second;
+
+				g_alpha = alpha;
+			}
+		}
+		if (val >= beta) return beta;
+
+	}
+	return alpha;
+}
+
+
+int minMaxHeauZobristSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl)
+{
+	if (depth <= 0 || gl.isGameOver(last_x, last_y, last_color) || (need_time_limit && clock() - start_time > g_time_limit))
+	{
+		auto hist = gl.zobrist_map.find(make_pair(gl.cur_zobrist[0], gl.cur_zobrist[1]));
+		if (hist != gl.zobrist_map.end()) {
+			return hist->second;
+		}
+		else {
+			int e = Evaluate(now_play, getOppo(now_play));
+			gl.zobrist_map[make_pair(gl.cur_zobrist[0], gl.cur_zobrist[1])] = e;
+			return e;
+		}
+
+	}
+
+	auto choices = createMoves(now_play);
+
+	for (auto& p : choices)
+	{
+		chessBoard[p.first][p.second] = now_play;
+		gl.update_zobrist(p.first, p.second, now_play);
+
+		last_x = p.first;
+		last_y = p.second;
+		last_color = now_play;
+
+		int val = -minMaxHeauZobristSearch(getOppo(now_play), depth - 1, -beta, -alpha, gl);
+
+		chessBoard[p.first][p.second] = blank;
+		gl.update_zobrist(p.first, p.second, now_play);
+
+		if (val > alpha)
+		{
+			alpha = val;
+			if (depth == DEPTH && alpha > g_alpha)
+			{
+				next_x = p.first;
+				next_y = p.second;
+
+				g_alpha = alpha;
+			}
+		}
+		if (val >= beta) return beta;
+
+	}
+	return alpha;
+}
 //无alpha,beta优化
 int  minMaxNoAlphaSearch(int now_play, int depth, GameLoop& gl) {
 	int best = -inf;
@@ -148,13 +249,14 @@ int  minMaxNoAlphaSearch(int now_play, int depth, GameLoop& gl) {
 int deepSearch(int now_play, int depth, int alpha, int beta, GameLoop& gl, double time_limit)
 {
 	need_time_limit = true;
-	g_time_limit = time_limit;
-	start_time = time(NULL);
-
-	for (int i = 2; difftime(time(NULL), start_time) < g_time_limit; i += 2)
+	g_time_limit = time_limit * 1000;
+	gl.cal_zobrist();
+	start_time = clock();
+	for (int i = 2; clock() - start_time < g_time_limit; i += 2)
 	{
 		DEPTH = i;
 		g_alpha = alpha;
+		//minMaxHeauZobristSearch(now_play, DEPTH, alpha, beta, gl);
 		minMaxSearch(now_play, DEPTH, alpha, beta, gl);
 	}
 #ifdef _DEBUG_
