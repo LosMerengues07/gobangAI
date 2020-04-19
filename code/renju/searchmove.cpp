@@ -1,6 +1,6 @@
 #include "searchmove.h"
 
-int BASE_DEPTH = 5;
+
 int searchMove() //ËÑË÷º¯ÊýÖ÷Ìå
 {
 
@@ -25,13 +25,16 @@ double g_time_limit;
 bool need_time_limit = false;
 int g_alpha;
 
+int last_x = -1;
+int last_y = -1;
+int last_color;
 int minMaxSearch(int now_play, int depth, int alpha, int beta, GameLoop & gl) {
 	if (difftime(time(NULL), start_time) > g_time_limit) {
 		int e = evaluate(now_play, getOppo(now_play));
 		return e;
 	}
 
-	if (depth <= 0 || gl.isLose() || gl.isWin()) {
+	if (depth <= 0 || gl.isGameOver(last_x, last_y, last_color)) {
 		int e = evaluate(now_play, getOppo(now_play));
 		return e;
 	}
@@ -40,6 +43,9 @@ int minMaxSearch(int now_play, int depth, int alpha, int beta, GameLoop & gl) {
 
 	for (auto & p : choices) {
 		chessBoard[p.first][p.second] = now_play;
+		last_x = p.first;
+		last_y = p.second;
+		last_color = now_play;
 
 		int val = -minMaxSearch(getOppo(now_play), depth - 1, -beta, -alpha, gl);
 
@@ -70,7 +76,8 @@ int deepSearch(int now_play, int depth, int alpha, int beta, GameLoop & gl, doub
 		g_alpha = alpha;
 		minMaxSearch(now_play, DEPTH, alpha, beta, gl);
 	}
-
+	cout << "search_depth" <<  DEPTH << endl;
+	system("pause");
 	need_time_limit = false;
 	return 0;
 }

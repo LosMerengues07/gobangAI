@@ -21,6 +21,7 @@ public:
 	GameLoop(bool ai_is_black);
 	bool isWin();
 	bool isLose();
+	bool isGameOver(int last_x, int last_y, int last_color);
 	void run();
 	~GameLoop();
 };

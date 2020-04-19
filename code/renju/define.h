@@ -42,10 +42,11 @@ struct ScoreWithP {
 	ScoreWithP(int s, int x, int y) :score(s), x(x), y(y){}
 };
 //extern int BASE_DEPTH;
-bool gameover(pair<int, int> node, int player); //判断是否游戏结束
+bool gameover(pair<int, int> & node, int player, int dir); //判断是否游戏结束
+bool gameover(pair<int, int> & node, int player); //判断是否游戏结束
 void printValueBoard();
-bool hasNeighbor(pair<int, int> point);
-bool hasLNeighbor(pair<int, int> point);
+bool hasNeighbor(pair<int, int> & point);
+bool hasLNeighbor(pair<int, int> & point);
 //获取对手颜色
 inline int getOppo(int player) {
 	return 3 - player;

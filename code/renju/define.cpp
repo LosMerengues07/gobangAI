@@ -52,26 +52,30 @@ int lNeighbor[24][2] = {
 	2, 2
 };
 
+bool gameover(pair<int, int> & node, int player, int dir){//判断是否游戏结束{
+	int x = node.first;
+	int y = node.second;
+	for (int j = 0; j < 5; j++)
+	{
+		int nx = x + directions[dir][0] * j;
+		int ny = y + directions[dir][1] * j;
+		if (!inboard(nx, ny) || chessBoard[nx][ny] != player)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
 //判断从node出发,是否能连出5子
-bool gameover(pair<int, int> node, int player)
+bool gameover(pair<int, int>& node, int player)
 {
 	int x = node.first;
 	int y = node.second;
 
 	for (int i = 0; i < 4; i++)
 	{
-		int flag = true;
-		for (int j = 0; j < 5; j++)
-		{
-			int nx = x + directions[i][0] * j;
-			int ny = y + directions[i][1] * j;
-			if (!inboard(nx, ny) || chessBoard[nx][ny] != player)
-			{
-				flag = false;
-				break;
-			}
-		}
-		if (flag)
+		if (gameover(node, player, i))
 			return true;
 	}
 
@@ -90,7 +94,7 @@ void printValueBoard()
 	}
 }
 
-bool hasNeighbor(pair<int, int> point) {
+bool hasNeighbor(pair<int, int>& point) {
 	for (int i = 0; i < 8; i++) {
 		int dx = neighbor[i][0];
 		int dy = neighbor[i][1];
@@ -102,7 +106,7 @@ bool hasNeighbor(pair<int, int> point) {
 	return false;
 }
 
-bool hasLNeighbor(pair<int, int> point) {
+bool hasLNeighbor(pair<int, int>& point) {
 	for (int i = 0; i < 24; i++) {
 		int dx = lNeighbor[i][0];
 		int dy = lNeighbor[i][1];

@@ -36,6 +36,8 @@ GameLoop::GameLoop(bool ai_is_black)
 			chessBoard[i][j] = blank;
 		}
 	}
+
+	//create_initialize();
 }
 
 void GameLoop::printMenu()
@@ -97,6 +99,9 @@ void GameLoop::userLoop()
 void GameLoop::aiLoop()
 {
 	//minMaxSearch(ai_color, DEPTH, -inf, +inf, *this);
+	//if (user_steps.size()) {
+	//	auto & last_step = user_steps
+	//}
 	deepSearch(ai_color, DEPTH, -inf, +inf, *this, 1);
 	makeMove(next_x, next_y, AI, ai_color);
 	//random search bug: will endless loop if table  is full
@@ -186,6 +191,18 @@ bool GameLoop::isLose()
 			if (gameover(make_pair(i, j), ai_color))
 				return true;
 		}
+	}
+	return false;
+}
+
+bool GameLoop::isGameOver(int last_x, int last_y, int last_color)
+{
+	for (int offset = -5; offset <= 0; offset++) {
+		if (gameover(make_pair(last_x + offset, last_y), last_color, 0) ||
+			gameover(make_pair(last_x, last_y + offset), last_color, 1) ||
+			gameover(make_pair(last_x + offset, last_y + offset), last_color, 2) ||
+			gameover(make_pair(last_x - offset, last_y + offset), last_color, 3))
+			return true;
 	}
 	return false;
 }
