@@ -20,8 +20,17 @@ int searchMove() //ËÑË÷º¯ÊýÖ÷Ìå
 //}
 int DEPTH = 4;
 int next_x, next_y;
+time_t start_time;
+double g_time_limit;
+bool need_time_limit = false;
+int g_alpha;
 
 int minMaxSearch(int now_play, int depth, int alpha, int beta, GameLoop & gl) {
+	if (difftime(time(NULL), start_time) > g_time_limit) {
+		int e = evaluate(now_play, getOppo(now_play));
+		return e;
+	}
+
 	if (depth <= 0 || gl.isLose() || gl.isWin()) {
 		int e = evaluate(now_play, getOppo(now_play));
 		return e;
@@ -38,13 +47,30 @@ int minMaxSearch(int now_play, int depth, int alpha, int beta, GameLoop & gl) {
 
 		if (val > alpha) {
 			alpha = val;
-			if (depth == DEPTH) {
+			if (depth == DEPTH && alpha > g_alpha) {
 				next_x = p.first;
 				next_y = p.second;
+
+				g_alpha = alpha;
 			}
 		}
 		if (val >= beta) return beta;
 
 	}
 	return alpha;
+}
+
+int deepSearch(int now_play, int depth, int alpha, int beta, GameLoop & gl, double time_limit) {
+	need_time_limit = true;
+	g_time_limit = time_limit;
+	start_time = time(NULL);
+
+	for (int i = 2; difftime(time(NULL), start_time) < g_time_limit ; i+= 2) {
+		DEPTH = i;
+		g_alpha = alpha;
+		minMaxSearch(now_play, DEPTH, alpha, beta, gl);
+	}
+
+	need_time_limit = false;
+	return 0;
 }
